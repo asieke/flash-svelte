@@ -1,7 +1,15 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { MatchingCardType } from '../data/types';
 	export let card: MatchingCardType;
 	export let updater: () => void;
+
+	//run an async function on load
+	let png: any = null;
+	onMount(async () => {
+		const { default: image } = await import(`../lib/assets/card-images/${card.img}`);
+		png = image;
+	});
 
 	import { animationFlip } from '../lib/animations';
 </script>
@@ -15,7 +23,9 @@
 		</div>
 	{:else}
 		<div class="card back flex justify-center" transition:animationFlip={{}}>
-			<img src="/card-images/{card.img}" alt={card.name} />
+			{#if png}
+				<img src={png} alt={card.name} />
+			{/if}
 		</div>
 	{/if}
 </div>
