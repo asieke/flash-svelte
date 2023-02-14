@@ -1,25 +1,53 @@
 <script lang="ts">
-	import Card from '../../../components/Card.svelte';
-	const cards = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+	import { afterUpdate } from 'svelte';
 
-	type Board = {
-		value: string;
-		flipped: boolean;
+	import Card from '../../../components/Card.svelte';
+	import { db } from '../../../data/data';
+	import type { MatchingCardType } from '../../../data/types';
+
+	// MatchingCard has the same properties as CardType, but with 1 additional "flipped: boolean" property.  Copy the CardType..
+
+	let frozen = false;
+	let cards: MatchingCardType[] = db.getCards('uppercase', 8, true).map((card) => {
+		return {
+			...card,
+			state: 'back'
+		};
+	});
+
+	let flipped: number[] = [];
+	$: matches = cards.filter((card) => card.state === 'matched').length;
+
+	const flipCard = (i: number) => {
+		if (frozen === true) return;
+		cards[i].state = 'front';
+		flipped.push(i);
+		if (flipped.length === 2) {
+			const [j, k] = flipped;
+			if (cards[j].name === cards[k].name) {
+				cards[j].state = 'matched';
+				cards[k].state = 'matched';
+			} else {
+				frozen = true;
+				setTimeout(() => {
+					cards[j].state = 'back';
+					cards[k].state = 'back';
+					frozen = false;
+				}, 2000);
+			}
+			flipped = [];
+		}
 	};
 
-	const board: Board[] = [];
-	for (let i = 0; i < cards.length; i++) {
-		board.push({
-			value: cards[i],
-			flipped: false
-		});
-	}
+	afterUpdate(() => {
+		console.log(matches);
+	});
 </script>
 
 <div class="matching">
 	<div class="mx-auto grid grid-cols-4 w-full gap-4">
-		{#each board as card}
-			<Card bind:flipped={card.flipped} value={card.value} />
+		{#each cards as card, i}
+			<Card bind:card updater={() => flipCard(i)} />
 		{/each}
 	</div>
 </div>

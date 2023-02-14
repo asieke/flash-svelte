@@ -1,29 +1,21 @@
 <script lang="ts">
-	export let flipped: boolean;
-	export let value: string;
-	import { animationFlip } from '../lib/animations';
+	import type { MatchingCardType } from '../data/types';
+	export let card: MatchingCardType;
+	export let updater: () => void;
 
-	// set this type to the type returned by setTimeout
-	let timeoutId: ReturnType<typeof setTimeout>;
-	$: if (flipped) {
-		timeoutId = setTimeout(() => {
-			flipped = false;
-		}, 1500);
-	} else {
-		clearTimeout(timeoutId);
-	}
+	import { animationFlip } from '../lib/animations';
 </script>
 
 <div class="card-container">
-	{#if !flipped}
+	{#if card.state === 'back'}
 		<div class="card front flex justify-center" transition:animationFlip={{}}>
-			<button class="button" on:click={() => (flipped = !flipped)}>
-				{value}
+			<button class="button" on:click={updater}>
+				{card.name}
 			</button>
 		</div>
 	{:else}
 		<div class="card back flex justify-center" transition:animationFlip={{}}>
-			<img src="/card-images/{value}.png" alt={value} />
+			<img src="/card-images/{card.img}" alt={card.name} />
 		</div>
 	{/if}
 </div>
