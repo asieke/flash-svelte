@@ -14,6 +14,7 @@
 			state: 'back'
 		};
 	});
+	$: preloaded = cards.map((card) => '/card-images/' + card.img);
 
 	let flipped: number[] = [];
 	$: matches = cards.filter((card) => card.state === 'matched').length;
@@ -43,6 +44,12 @@
 		console.log(matches);
 	});
 </script>
+
+<svelte:head>
+	{#each preloaded as image}
+		<link rel="preload" as="image" href={image} />
+	{/each}
+</svelte:head>
 
 <div class="matching">
 	<div class="mx-auto grid grid-cols-4 w-full gap-4">
