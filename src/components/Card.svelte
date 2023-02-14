@@ -1,19 +1,7 @@
 <script lang="ts">
 	export let flipped: boolean;
 	export let value: string;
-
-	function flip(node: HTMLElement, { delay = 0, duration = 500 }) {
-		return {
-			delay,
-			duration,
-			css: (t: number, u: number) => {
-				return `
-					transform: rotateY(${1 - u * 180}deg);
-					opacity: ${1 - u};
-				`;
-			}
-		};
-	}
+	import { animationFlip } from '../lib/animations';
 
 	// set this type to the type returned by setTimeout
 	let timeoutId: ReturnType<typeof setTimeout>;
@@ -26,14 +14,15 @@
 	}
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="card-container" on:click={() => (flipped = !flipped)}>
+<div class="card-container">
 	{#if !flipped}
-		<div class="card front flex justify-center" transition:flip={{}}>
-			{value}
+		<div class="card front flex justify-center" transition:animationFlip={{}}>
+			<button class="button" on:click={() => (flipped = !flipped)}>
+				{value}
+			</button>
 		</div>
 	{:else}
-		<div class="card back flex justify-center" transition:flip={{}}>
+		<div class="card back flex justify-center" transition:animationFlip={{}}>
 			<img src="/card-images/{value}.png" alt={value} />
 		</div>
 	{/if}
@@ -56,5 +45,9 @@
 		position: relative;
 		width: 100%;
 		height: 20vh;
+	}
+	.button {
+		width: 100%;
+		height: 100%;
 	}
 </style>

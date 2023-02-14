@@ -17,7 +17,7 @@
 </script>
 
 <div class="matching">
-	<div class="mx-auto grid grid-cols-4 w-full gap-4 py-16 px-8">
+	<div class="mx-auto grid grid-cols-4 w-full gap-4">
 		{#each board as card}
 			<Card bind:flipped={card.flipped} value={card.value} />
 		{/each}
