@@ -7,7 +7,7 @@
 	//run an async function on load
 	let png: any = null;
 	onMount(async () => {
-		const { default: image } = await import(`../lib/assets/card-images/${card.img}`);
+		const { default: image } = await import(`../lib/assets/card-images/${card.img}.png`);
 		png = image;
 	});
 
