@@ -13,5 +13,4 @@ body {
 
 .content {
 	@apply h-[100vh] w-full;
-	background-color: green;
 }

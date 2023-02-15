@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { MatchingCardType } from '../data/types';
 	export let card: MatchingCardType;
 	export let updater: () => void;
@@ -9,31 +8,55 @@
 
 <div class="card-container">
 	{#if card.state === 'back'}
-		<div class="card front flex justify-center" transition:animationFlip={{}}>
-			<button class="button" on:click={updater}>
-				{card.name}
-			</button>
+		<!-- Rewrite this div by removing the img moving the img to be a background image -->
+
+		<div class="card front" transition:animationFlip={{ duration: 500 }}>
+			<button class="button" on:click={updater} />
 		</div>
 	{:else}
-		<div class="card back flex justify-center" transition:animationFlip={{}}>
-			<img src={'/card-images/' + card.img} alt={card.name} />
+		<div
+			class="card back"
+			transition:animationFlip={{ duration: 500 }}
+			style="background-image: url('/card-images/{card.img}')"
+		>
+			{card.name}
 		</div>
 	{/if}
 </div>
 
 <style>
 	.front {
-		background-color: green;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden;
+		background-image: url('/images/pattern.png');
 	}
 	.back {
-		background-color: red;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		backface-visibility: hidden;
 	}
 	.card {
-		width: 100%;
-		height: 100%;
-		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		text-shadow: 0 0 6px black;
+		font-weight: bold;
+		font-size: 8rem;
+		background-size: cover;
+		background-position: center;
+		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+		border-radius: 0.5rem;
+		will-change: transform;
 	}
+
 	.card-container {
 		position: relative;
 		width: 100%;
