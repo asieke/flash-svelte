@@ -1,0 +1,5 @@
+.flashcards {
+	@apply flex flex-col items-center justify-center h-[100vh] w-full;
+
+	background-color: #f2f2f2;
+}

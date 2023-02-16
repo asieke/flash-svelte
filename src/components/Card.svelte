@@ -4,6 +4,7 @@
 	export let updater: () => void;
 
 	import { animationFlip } from '../lib/animations';
+	import { flip } from 'svelte/animate';
 </script>
 
 <div class="card-container">
@@ -41,6 +42,7 @@
 		width: 100%;
 		height: 100%;
 		backface-visibility: hidden;
+		background-image: url('/card-images/cat.png');
 	}
 	.card {
 		display: flex;

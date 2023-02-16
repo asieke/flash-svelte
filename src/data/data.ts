@@ -32,5 +32,15 @@ export const db: DataType = {
 		}
 
 		return selectedCards;
+	},
+
+	getFlashCards: (category, numCards, doubleCards = false) => {
+		return db.getCards(category, numCards, doubleCards).map((card, i) => ({
+			...card,
+			state: 'deck',
+			z: numCards - i,
+			x: 0,
+			tilt: Math.round(Math.random() * 10 - 5)
+		}));
 	}
 };

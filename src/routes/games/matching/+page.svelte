@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
 
 	import Card from '../../../components/Card.svelte';
 	import { db } from '../../../data/data';
@@ -16,7 +16,7 @@
 		};
 	});
 	const sounds = getSounds(cards);
-	$: preloaded = cards.map((card) => '/card-images/' + card.img);
+	// $: preloaded = cards.map((card) => '/card-images/' + card.img);
 	$: matches = cards.filter((card) => card.state === 'matched').length;
 
 	let flipped: number[] = [];
@@ -59,12 +59,12 @@
 	});
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
 	{#each preloaded as image}
 		<link rel="preload" as="image" href={image} />
 	{/each}
 	<link rel="preload" as="image" href="/images/pattern.png" />
-</svelte:head>
+</svelte:head> -->
 
 {#if boardShowing}
 	<div class="matching">

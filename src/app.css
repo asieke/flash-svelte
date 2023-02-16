@@ -1,4 +1,5 @@
 @import './styles/matching.css';
+@import './styles/flashcards.css';
 
 @tailwind base;
 @tailwind components;
